@@ -3,4 +3,24 @@ h2
 
 ul
   for user in users
-    li #{user.name_first} #{user.name_last}
+    li #{user.name.first} #{user.name.last} #{user._id}
+
+
+
+form(action="/users",method="POST")
+  label First Name:
+  input(name="user[name_first]")
+  br
+  label Last Name:
+  input(name="user[name_last]")
+  br
+  label Email Address:
+  input(name="user[email]")
+  br
+  label Role:
+  input(name="user[role]")
+  br
+  label Password:
+  input(name="user[pass]")
+  br
+  input(type="submit",value="SUBMIT THIS SHIT")
