@@ -4,16 +4,16 @@ var UsersController = {
 
   // index method handles the GET /users route
   index: function (req, res) {
-    var usersList = UsersModel.list(function(usersList){
-      res.render('users/index', {users:usersList});
+    var usersList = UsersModel.list(function(err, usersList){
+      res.render('users/index', {layout: 'layout',users:usersList});
     });
     
   }
   
   ,detail: function (req, res) {
-    
-    UsersModel.detail(req.params.id,function(user){
-      res.render('users/detail',{user:user[0]});
+    UsersModel.detail(req.params.id,function(err,user){
+      console.log('user',user)
+      res.render('users/detail',{user:user});
     })
     
   }
@@ -27,8 +27,18 @@ var UsersController = {
     });
     
   }
-  ,edit:function (req, res) {}
-  ,del:function (req, res) {}
+  ,edit:function (req, res) {
+    var user = req.body.user;
+    var id = req.params.id;
+    UsersModel.edit(id,user,function(err){
+      res.redirect('/users/'+id);
+    })
+  }
+  ,del:function (req, res) {
+    UsersModel.delete(req.params.id,function(err){
+      res.redirect('/users');
+    })
+  }
   
 };
 

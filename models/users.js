@@ -34,9 +34,9 @@ var UsersModel = {
 
     db.open(function(err,db){
       db.collection('users',function(err,collection){
-        collection.find({'_id':o_id}).toArray(function(err,results){
+        collection.findOne({'_id':o_id},function(err,results){
           db.close();
-          callback(results);
+          callback(err,results);
         })
       })//collection
     });//open
@@ -47,7 +47,7 @@ var UsersModel = {
       db.collection('users',function(err,collection){
         collection.find().toArray(function(err,results){
           db.close();
-          callback(results);
+          callback(err,results);
         })
       })//collection
     });//open
@@ -67,6 +67,35 @@ var UsersModel = {
     });//open
 
     return true;
+  },
+
+  edit: function(id,user,callback){
+    console.log('editing user',id,user);
+
+    var o_id = new BSON.ObjectID(id);
+
+    db.open(function(err,db){
+      db.collection('users',function(err,collection){
+        collection.update({'_id':o_id},{name:{first:user.name_first,last:user.name_last}},function(err,results){
+          db.close();
+          callback(err,results);
+        })
+      })//collection
+    });//open
+  }, //list()
+
+  delete: function(id,callback){
+    
+    var o_id = new BSON.ObjectID(id);
+
+    db.open(function(err,db){
+      db.collection('users',function(err,collection){
+        collection.remove({_id: o_id},function(){
+          db.close();
+          callback(err);
+        })
+      })//collection
+    });//open
   }
 
 };

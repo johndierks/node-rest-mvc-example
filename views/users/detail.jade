@@ -1,2 +1,27 @@
 h1 #{user.name.first} #{user.name.last}
-h2  #{user._id}
+h2 #{user._id}
+
+form(action="/users/"+user._id,method="POST")
+  input(name="_method",value="DELETE",type="hidden")
+  input(type="submit",value="DELETE THIS RECORD")
+
+a#show-edit-form(href="#") Edit this entry
+
+form#edit-form(action="/users/"+user._id,method="POST")
+  
+  input(type="hidden", name="_method", value="PUT")
+  label First Name:
+  input(name="user[name_first]", value=user.name.first)
+  br
+  label Last Name:
+  input(name="user[name_last]", value=user.name.last)
+  br
+  label Email Address:
+  input(name="user[email]", value=user.email)
+  br
+  label Role:
+  input(name="user[role]", value=user.roll)
+  br
+  input(type="submit",value="Edit User")
+
+
