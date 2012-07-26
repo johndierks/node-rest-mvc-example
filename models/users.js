@@ -13,6 +13,8 @@ var mongo = require('mongodb'),
   Connection = mongo.Connection,
   Server = mongo.Server;
 
+var BSON = mongo.BSONPure;
+
 var db = new Db('test',new Server("127.0.0.1", Connection.DEFAULT_PORT, {}));
 
 var hash = function (string){
@@ -26,10 +28,13 @@ var hash = function (string){
 
 var UsersModel = {
 
-  details:function (callback) {
+  detail:function (id,callback) {
+    
+    var o_id = new BSON.ObjectID(id);
+
     db.open(function(err,db){
       db.collection('users',function(err,collection){
-        collection.find().toArray(function(err,results){
+        collection.find({'_id':o_id}).toArray(function(err,results){
           db.close();
           callback(results);
         })
@@ -48,7 +53,7 @@ var UsersModel = {
     });//open
   }, //list()
 
-  create:function(data){
+  create:function(data,callback){
 
     var pass = hash(data.pass);
     data.pass = pass;
@@ -57,6 +62,7 @@ var UsersModel = {
       db.collection('users',function(err,collection){
         collection.insert({name:{first:data.name_first,last:data.name_last}});
         db.close();
+        callback(err);
       })//collection
     });//open
 

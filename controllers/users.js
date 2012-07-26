@@ -11,15 +11,21 @@ var UsersController = {
   }
   
   ,detail: function (req, res) {
-    res.render('users/detail');
+    
+    UsersModel.detail(req.params.id,function(user){
+      res.render('users/detail',{user:user[0]});
+    })
+    
   }
   
   ,create: function (req, res) {
     var user = req.body.user;
-    var created = UsersModel.create(user);
-    if (created){
+    
+    UsersModel.create(user,function(err){
+      if(err) console.log('Error',err);
       res.redirect('/users');
-    }
+    });
+    
   }
   ,edit:function (req, res) {}
   ,del:function (req, res) {}

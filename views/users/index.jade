@@ -3,7 +3,8 @@ h2
 
 ul
   for user in users
-    li #{user.name.first} #{user.name.last} #{user._id}
+    li #{user.name.first} #{user.name.last} 
+      a(href=user._id) Details
 
 
 
