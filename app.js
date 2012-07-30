@@ -10,7 +10,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 20026);
+  app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -30,7 +30,7 @@ app.get('/', routes.index);
 
 var UsersController = require(__dirname + '/controllers/users');
 
-app.get('/users',UsersController.index); // GET a list of users
+app.get('/users', UsersController.index); // GET a list of users
 app.get('/users/:id', UsersController.detail); // GET the detail of a user by its ID
 app.post('/users', UsersController.create); // CREATE a new user
 app.put('/users/:id', UsersController.edit); // EDIT or UPDATE a user by its ID
